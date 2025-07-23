@@ -1,11 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // Importa el módulo CORS
+const cors = require('cors'); 
 const OpenAI = require('openai');
 const app = express();
 const port = 3000;
 
-// Configura CORS para permitir cualquier origen
+
 app.use(cors());
 
 const openai = new OpenAI({
