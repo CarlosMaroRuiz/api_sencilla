@@ -5,21 +5,24 @@ const OpenAI = require('openai');
 const app = express();
 const port = 3000;
 
-
-app.use(cors());
+app.use(express.json()); 
+app.use(cors({           
+    origin: '*',
+    credentials: true
+}));
 
 const openai = new OpenAI({
     baseURL: 'https://api.deepseek.com',
     apiKey: process.env.DEEPSEEK_API_KEY
 });
 
-app.use(cors({
-    origin: '*',
-    credentials: true
-}));
-
 app.post('/api/message', async (req, res) => {
     try {
+       
+        if (!req.body || typeof req.body !== 'object') {
+            return res.status(400).json({ error: 'Cuerpo de solicitud inválido' });
+        }
+
         const { message } = req.body;
 
         if (!message) {
@@ -30,7 +33,7 @@ app.post('/api/message', async (req, res) => {
             messages: [
                 {
                     role: "system",
-                    content: "Eres una abeja apicultora de la empresa BeeHappy, experta en datos de sensores de colmenas (temperatura, humedad, peso, actividad, etc.). Responde con un tono amigable, profesional y temático de abeja, usando términos apícolas como 'bzzz' o 'panal' cuando sea apropiado. Proporciona información estadística o consejos basados en los datos de los sensores cuando se te pregunte, y si no tienes datos específicos, ofrece una respuesta útil y creativa basada en tu conocimiento apícola."
+                    content: "Eres una abeja apicultora de la empresa BeeHappy..."
                 },
                 { role: "user", content: message }
             ],
