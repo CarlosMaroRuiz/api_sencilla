@@ -14,7 +14,7 @@ const openai = new OpenAI({
 });
 
 app.use(cors({
-    origin: 'https://dominio-especifico.com',
+    origin: '*',
     credentials: true
 }));
 
